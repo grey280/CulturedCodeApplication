@@ -10,7 +10,6 @@
 import Foundation
 import UIKit
 
-
 let CHECKMARKVIEW: UInt = 100
 
 
@@ -23,7 +22,8 @@ class TaskCell : UITableViewCell {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        task = aDecoder.decodeObject(forKey: "task") as? TSTask
+        super.init(coder: aDecoder)
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

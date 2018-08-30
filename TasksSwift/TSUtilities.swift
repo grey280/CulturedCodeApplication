@@ -17,7 +17,7 @@ struct TSUtilities{
     /// Generate the default tasks
     ///
     /// - Returns: a nice array with the default set of tasks
-    static func generateTasks() -> NSArray{
+    static func generateTasks() -> [TSTask]{
         let taskDescriptions = [
             [ titleKey: "Buy milk", completedKey: false],
             [ titleKey: "Pay rent", completedKey: false],
@@ -30,32 +30,24 @@ struct TSUtilities{
             ]],
             [ titleKey: "Dance", completedKey: false]
         ]
-        return taskFromDescriptions(taskDescriptions)
+        return TSUtilities.taskFromDescriptions(taskDescriptions)
     }
-}
-
-func _taskFromDescriptions(_ descriptions: Array<[String:Any]>) -> NSArray {
-    let tasks = NSMutableArray.init()
     
-    for taskDescription in descriptions {
-        let title = taskDescription[kTitle] as! String
-        let completed = taskDescription[kCompleted] as! Bool
-        let childrenDescriptions = taskDescription[kChildren] as! Array<[String:Any]>?
-        
-        let task = TSTask.initWith(title: title)
-        task.childrenTasks = NSMutableArray.init(array: [])
-        if completed != task.completed() { task.switchDone() }
-        
-        if childrenDescriptions != nil && childrenDescriptions!.count > 0 {
-            let children = self._taskFromDescriptions(childrenDescriptions!)
-            for child in children {
-                task.addChild(child: child as! TSTask)
-                NSLog("adding")
+    static func taskFromDescriptions(_ descriptions: Array<[String:Any]>) -> [TSTask]{
+        let tasks = [TSTask]()
+        for taskDesc in descriptions{
+            guard let title = taskDesc[titleKey] as? String, let completed = taskDesc[completedKey] as? Bool else{
+                continue
+            }
+            let task = TSTask(title: title)
+            task.completed = completed
+            if let wrappedChildren = taskDesc[childrenKey] as? Array<[String:Any]>, wrappedChildren.count > 0{
+                let children = taskFromDescriptions(wrappedChildren)
+                for child in children{
+                    task.addChild(child)
+                }
             }
         }
-        
-        tasks.addObjects(from: [task])
+        return tasks
     }
-    
-    return tasks
 }

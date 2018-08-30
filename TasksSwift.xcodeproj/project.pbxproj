@@ -17,6 +17,7 @@
 		03DF601720A1B8350055325C /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DF601620A1B8350055325C /* TaskCell.swift */; };
 		03DF601A20A1BA580055325C /* Checkbox-Checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DF601820A1BA580055325C /* Checkbox-Checked@2x.png */; };
 		03DF601B20A1BA580055325C /* Checkbox-Empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DF601920A1BA580055325C /* Checkbox-Empty@2x.png */; };
+		2DB154FA21389E130039E5F2 /* TSUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB154F921389E130039E5F2 /* TSUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		03DF601620A1B8350055325C /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		03DF601820A1BA580055325C /* Checkbox-Checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox-Checked@2x.png"; sourceTree = "<group>"; };
 		03DF601920A1BA580055325C /* Checkbox-Empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkbox-Empty@2x.png"; sourceTree = "<group>"; };
+		2DB154F921389E130039E5F2 /* TSUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSUtilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			children = (
 				03DF600020A1A63F0055325C /* AppDelegate.swift */,
 				03DF600220A1A63F0055325C /* ViewController.swift */,
+				2DB154F921389E130039E5F2 /* TSUtilities.swift */,
 				03DF601220A1A6840055325C /* TSTask.swift */,
 				03DF601620A1B8350055325C /* TaskCell.swift */,
 				03DF601420A1B15A0055325C /* TasksTableViewController.swift */,
@@ -154,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03DF600320A1A63F0055325C /* ViewController.swift in Sources */,
+				2DB154FA21389E130039E5F2 /* TSUtilities.swift in Sources */,
 				03DF600120A1A63F0055325C /* AppDelegate.swift in Sources */,
 				03DF601520A1B15A0055325C /* TasksTableViewController.swift in Sources */,
 				03DF601320A1A6840055325C /* TSTask.swift in Sources */,

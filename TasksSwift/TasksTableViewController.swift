@@ -4,17 +4,15 @@
 //
 //  Created by Jace on 8/5/18.
 //  Copyright © 2018 Cultured Code GmbH & Co. KG. All rights reserved.
+//  As modified by Grey Patterson (github.com/grey280).
 //
 
 import Foundation
 import UIKit
 
 class TasksTableViewController : UITableViewController {
-
     var tasks: NSArray?
-
     init(withTasks: NSArray) {
-
         super.init(style: UITableViewStyle.plain)
 
         self.title = "Tasks"
@@ -37,7 +35,6 @@ class TasksTableViewController : UITableViewController {
 
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -69,7 +66,6 @@ class TasksTableViewController : UITableViewController {
 
 
     // MARK: - Table view delegate
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let taskCell = cell as! TaskCell

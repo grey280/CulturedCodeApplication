@@ -9,22 +9,21 @@
 
 import Foundation
 
-func now() -> Date {
-    return NSDate() as Date
-}
-
-class TSTask
-{
-
-    private var modified: NSDate!;    var done: Bool = false
+class TSTask{
+    private var modified: Date?
+    var done: Bool = false
     var parentTask: Any?
 
     init() {
         title = "<no title>";
 //        modified = 0; //??
     }
+    
+    init(title name: String){
+        title = name
+    }
 
-    class func initWith(title name: String) -> TSTask {
+    @available(*, deprecated) class func initWith(title name: String) -> TSTask {
         let task = TSTask.init()
         task.title = name
 
@@ -38,35 +37,29 @@ class TSTask
 
     @objc var title: String? {
         didSet {
-            modified = now() as NSDate
+            modified = Date()
         }
     }
 
-    var modifieddate: Date {
-        get {
-            return self.modified as Date
-        }
+    var modifieddate: Date? {
+        return modified
     }
+    
     var modifiedString: String {
         get {
-            let cal = Calendar.init(identifier: .gregorian)
-            var ret: String?
-
-            if (!(modified==nil)) {
-                let f: DateFormatter = DateFormatter.init()
-                f.calendar = cal
-                ret = f.string(from: modified! as Date)
-            } else {
-                return "not yet moidfied"
+            guard let mod = modified else{
+                return "not yet modified"
             }
-
-            return ret!;
+            let f = DateFormatter()
+            f.calendar = Calendar(identifier: .gregorian)
+            return f.string(from: mod)
         }
     }
 
     var childrenTasks: NSMutableArray = NSMutableArray.init()
 
-    func addChild(child: TSTask) { modified = now() as NSDate
+    func addChild(child: TSTask) {
+        modified = Date()
         childrenTasks.addObjects(from: [child])
         child.parentTask = self
     }

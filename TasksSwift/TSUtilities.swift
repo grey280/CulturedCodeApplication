@@ -34,7 +34,7 @@ struct TSUtilities{
     }
     
     static func taskFromDescriptions(_ descriptions: Array<[String:Any]>) -> [TSTask]{
-        let tasks = [TSTask]()
+        var tasks = [TSTask]()
         for taskDesc in descriptions{
             guard let title = taskDesc[titleKey] as? String, let completed = taskDesc[completedKey] as? Bool else{
                 continue
@@ -47,6 +47,7 @@ struct TSUtilities{
                     task.addChild(child)
                 }
             }
+            tasks.append(task)
         }
         return tasks
     }

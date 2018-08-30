@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.tasksTableViewController = TasksTableViewController.init(withTasks: TSUtilities.generateTasks())
         self.navigationController = UINavigationController.init(rootViewController: self.tasksTableViewController)
         self.navigationController.isToolbarHidden = false
+        window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = self.navigationController
         self.window?.backgroundColor = UIColor.white
         self.window?.makeKeyAndVisible()

@@ -9,109 +9,71 @@
 
 import Foundation
 
-class TSTask{
-    private var modified: Date?
-    var done: Bool = false
-    var parentTask: Any?
-
-    init() {
-        title = "<no title>";
-//        modified = 0; //??
+class TSTask: Equatable{
+    static func == (lhs: TSTask, rhs: TSTask) -> Bool {
+        return lhs.title == rhs.title && lhs.completed == rhs.completed && lhs.modified == rhs.modified && lhs.children == rhs.children
     }
     
-    init(title name: String){
-        title = name
-    }
-
-    @available(*, deprecated) class func initWith(title name: String) -> TSTask {
-        let task = TSTask.init()
-        task.title = name
-
-        return task
-    }
-
-    deinit {
-        title = nil
-        childrenTasks.removeAllObjects();
-    }
-
+    // MARK: Variables
+    public private(set) var modified: Date?
+    var completed: Bool = false
+    var parentTask: TSTask?
     @objc var title: String? {
         didSet {
             modified = Date()
         }
     }
+    var modifiedString: String {
+        guard let mod = modified else{
+            return "not yet modified"
+        }
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        return f.string(from: mod)
+    }
+    var children: [TSTask]?
+    
+    // MARK: - Setup
+    init(title name: String){
+        title = name
+    }
 
-    var modifieddate: Date? {
-        return modified
+    deinit {
+        title = nil
+        children?.removeAll()
     }
     
-    var modifiedString: String {
-        get {
-            guard let mod = modified else{
-                return "not yet modified"
-            }
-            let f = DateFormatter()
-            f.calendar = Calendar(identifier: .gregorian)
-            return f.string(from: mod)
-        }
-    }
-
-    var childrenTasks: NSMutableArray = NSMutableArray.init()
-
-    func addChild(child: TSTask) {
+    // MARK: - Children
+    func addChild(_ child: TSTask){
         modified = Date()
-        childrenTasks.addObjects(from: [child])
+        if children == nil{
+            children = [TSTask]()
+        }
+        children?.append(child)
         child.parentTask = self
     }
-
-    func removeChild(child: TSTask) {
-        childrenTasks.remove(child)
+    
+    func removeChild(_ child: TSTask){
+        children = children?.filter { $0 != child }
+    }
+    
+    func removeChildren(){
+        children?.removeAll()
     }
 
 
     // MARK - completed
-
-    func completed() -> Bool
-    {
-        if done { return true}
-        else      {return false;}
+    
+    func toggle(){
+        completed = !completed
     }
-    var notCompleted: Bool {
-        get {
-        if (!done)  {
-            return false}
-        else { return true
+    
+    func completeAllChildren(){
+        guard let ch = children else{
+            return
         }
-        }
-
-    }
-
-
-    func switchDone(){
-        var newDone: Bool = false
-        if done
-        { done = newDone }
-        else
-        { newDone = true }
-
-        done = newDone
-    }
-
-    func makeAllChildrenComplete() {
-        for l in 1...childrenTasks.count {
-            let task = childrenTasks.object(at: l) as! TSTask
-            if task.notCompleted {
-                let task = childrenTasks.object(at: 1) as! TSTask
-                task.switchDone()
-            }}
-    }
-
-
-
-
-    func deleteChildren() {
-        for l in 0...childrenTasks.count {
-            childrenTasks.removeObject(at: l)
+        for child in ch{
+            child.completed = true
         }
     }
 }

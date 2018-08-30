@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tasksTableViewController: TasksTableViewController!
     var navigationController: UINavigationController!
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.tasksTableViewController = TasksTableViewController.init(withTasks: self._generateTasks())
         self.navigationController = UINavigationController.init(rootViewController: self.tasksTableViewController)
         self.navigationController.isToolbarHidden = false

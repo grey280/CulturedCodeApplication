@@ -13,16 +13,16 @@ import UIKit
 class TasksTableViewController : UITableViewController {
     var tasks: NSArray?
     init(withTasks: NSArray) {
-        super.init(style: UITableViewStyle.plain)
+        super.init(style: UITableView.Style.plain)
 
         self.title = "Tasks"
         self.tasks = withTasks
         self.toolbarItems = [UIBarButtonItem.init(title: "complete all",
-                                                  style: UIBarButtonItemStyle.plain,
+                                                  style: UIBarButtonItem.Style.plain,
                                                   target: self,
                                                   action: #selector(TasksTableViewController.completeAll)),
                              UIBarButtonItem.init(title: "sort by name",
-                                                  style: UIBarButtonItemStyle.plain,
+                                                  style: UIBarButtonItem.Style.plain,
                                                   target: self,
                                                   action: #selector(TasksTableViewController.sort))]
 

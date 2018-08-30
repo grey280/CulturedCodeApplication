@@ -68,7 +68,7 @@ class TaskCell : UITableViewCell {
         self.textLabel?.frame = r!
 
         // Switch Image
-        if task!.completed() {
+        if task!.completed {
             imageView?.image = UIImage.init(named: "Checkbox-Checked.png")
         }
         else {

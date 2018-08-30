@@ -11,12 +11,12 @@ import Foundation
 import UIKit
 
 class TasksTableViewController : UITableViewController {
-    var tasks: NSArray?
-    init(withTasks: NSArray) {
+    var tasks: [TSTask]
+    init(withTasks: [TSTask]) {
+        self.tasks = withTasks
         super.init(style: UITableView.Style.plain)
 
         self.title = "Tasks"
-        self.tasks = withTasks
         self.toolbarItems = [UIBarButtonItem.init(title: "complete all",
                                                   style: UIBarButtonItem.Style.plain,
                                                   target: self,
@@ -40,24 +40,24 @@ class TasksTableViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks!.count
+        return self.tasks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
 
         cell.configureStyle()
-        cell.task = self.tasks?.object(at: indexPath.row) as! TSTask?
+        let task = self.tasks[indexPath.row]
+        cell.task = task
 
-        let task = self.tasks?.object(at: indexPath.row) as! TSTask
-        if (task.childrenTasks.count  > 0) {
+        if (task.children.count  > 0) {
             cell.accessoryType = .detailDisclosureButton
         }
-        else if !(task.childrenTasks.count > 0) {
+        else if !(task.children.count > 0) {
             cell.accessoryType = .none
         }
 
-        if task.completed() {
+        if task.completed {
             cell.setInactive()
         }
 
@@ -69,9 +69,9 @@ class TasksTableViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let taskCell = cell as! TaskCell
-        taskCell.task?.switchDone()
+        taskCell.task?.toggle()
 
-        if (taskCell.task?.completed())! {
+        if (taskCell.task?.completed)! {
             taskCell.setInactive()
         }
         else {
@@ -83,28 +83,26 @@ class TasksTableViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! TaskCell?
-        let tvc = TasksTableViewController.init(withTasks: cell!.task!.childrenTasks)
+        let tvc = TasksTableViewController.init(withTasks: cell!.task!.children)
         tvc.title = cell!.task!.title
         self.navigationController?.pushViewController(tvc, animated: true)
     }
 
     @objc func completeAll() {
-
         for cell in self.tableView.visibleCells {
-
             if let taskCell = cell as? TaskCell {
-                if !(taskCell.task?.completed())! {
+                if !(taskCell.task?.completed)! {
                     taskCell.setInactive()
-                    taskCell.task?.switchDone()
+                    taskCell.task?.toggle()
                 }
             }
         }
     }
 
     @objc func sort() {
-        if let sorted = self.tasks?.sortedArray(using: #selector(getter: TSTask.title)) {
-            self.tasks = NSArray.init(array: sorted)
-        }
+        tasks.sort(by: { (first, second) -> Bool in
+            first.title ?? "" > second.title ?? ""
+        })
 
         // TODO: For some reason this doesn't animate...
         self.tableView.reloadData()

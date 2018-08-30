@@ -66,7 +66,7 @@ class TSTask: Equatable{
     }
     
     func completeAllChildren(){
-        for child in ch{
+        for child in children{
             child.completed = true
         }
     }

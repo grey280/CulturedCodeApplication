@@ -31,9 +31,16 @@ class TaskCell: UITableViewCell {
         self.textLabel?.font = UIFont(name: "AmericanTypewriter", size: 16)
         self.textLabel?.textColor = UIColor.black
     }
+    
+    func setActive(){
+        textLabel?.textColor = .black
+        task?.completed = false
+        imageView?.image = UIImage(named: "Checkbox-Empty.png")
+    }
 
     func setInactive() {
-        self.textLabel?.textColor = UIColor.lightGray
+        self.textLabel?.textColor = .lightGray
+        task?.completed = true
         imageView?.image = UIImage(named: "Checkbox-Checked.png")
     }
 

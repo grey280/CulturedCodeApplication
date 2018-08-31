@@ -20,11 +20,11 @@ class TasksTableViewController : UITableViewController {
         self.toolbarItems = [UIBarButtonItem.init(title: "complete all",
                                                   style: UIBarButtonItem.Style.plain,
                                                   target: self,
-                                                  action: #selector(TasksTableViewController.completeAll)),
+                                                  action: #selector(completeAll)),
                              UIBarButtonItem.init(title: "sort by name",
                                                   style: UIBarButtonItem.Style.plain,
                                                   target: self,
-                                                  action: #selector(TasksTableViewController.sort))]
+                                                  action: #selector(sort))]
 
         self.tableView.register(TaskCell.self, forCellReuseIdentifier: "TaskCell")
     }
@@ -40,7 +40,7 @@ class TasksTableViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks.count
+        return tasks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,8 +52,7 @@ class TasksTableViewController : UITableViewController {
 
         if (task.children.count  > 0) {
             cell.accessoryType = .detailDisclosureButton
-        }
-        else if !(task.children.count > 0) {
+        }else{
             cell.accessoryType = .none
         }
 
@@ -67,15 +66,13 @@ class TasksTableViewController : UITableViewController {
 
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        let taskCell = cell as! TaskCell
-        taskCell.task?.toggle()
+        let cell = tableView.cellForRow(at: indexPath) as! TaskCell
 
-        if (taskCell.task?.completed)! {
-            taskCell.setInactive()
+        if (cell.task?.completed)! {
+            cell.setActive()
         }
         else {
-            cell?.textLabel?.textColor = UIColor.init(white: 0, alpha: 1)
+            cell.setInactive()
         }
 
         tableView.deselectRow(at: indexPath, animated: false)
@@ -91,10 +88,7 @@ class TasksTableViewController : UITableViewController {
     @objc func completeAll() {
         for cell in self.tableView.visibleCells {
             if let taskCell = cell as? TaskCell {
-                if !(taskCell.task?.completed)! {
-                    taskCell.setInactive()
-                    taskCell.task?.toggle()
-                }
+                taskCell.setInactive()
             }
         }
     }
@@ -103,8 +97,8 @@ class TasksTableViewController : UITableViewController {
         tasks.sort(by: { (first, second) -> Bool in
             first.title ?? "" > second.title ?? ""
         })
-
-        // TODO: For some reason this doesn't animate...
-        self.tableView.reloadData()
+        // This does a fade animation, which isn't the nice 'things moving around' animation that I'd like, but that'd require a lot more work.
+        // To do that would involve a lot of `moveRow(at:to:)` and I'm too lazy to make that work with the `.sort` above
+        tableView.reloadSections(IndexSet(arrayLiteral: 0), with: .automatic)
     }
 }

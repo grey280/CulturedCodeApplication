@@ -12,6 +12,7 @@ import UIKit
 
 class TasksTableViewController : UITableViewController {
     var tasks: [TSTask]
+    
     init(withTasks: [TSTask]) {
         self.tasks = withTasks
         super.init(style: UITableView.Style.plain)
@@ -82,7 +83,8 @@ class TasksTableViewController : UITableViewController {
         tvc.title = cell.task!.title
         self.navigationController?.pushViewController(tvc, animated: true)
     }
-
+    
+    // MARK: - Toolbar functions
     @objc func completeAll() {
         for cell in self.tableView.visibleCells {
             if let taskCell = cell as? TaskCell {

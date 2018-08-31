@@ -10,10 +10,8 @@
 import Foundation
 import UIKit
 
-let CHECKMARKVIEW: UInt = 100
-
-
 class TaskCell : UITableViewCell {
+    private let CHECKMARKVIEW: UInt = 100
 
     var task: TSTask? {
         didSet {
@@ -28,6 +26,7 @@ class TaskCell : UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        imageView?.image = UIImage(named: "Checkbox-Empty.png")
     }
 
     func configureStyle() {
@@ -39,39 +38,23 @@ class TaskCell : UITableViewCell {
         self.textLabel?.textColor = UIColor.lightGray
     }
 
-    func subview(for tag: UInt) -> UIView? {
-        for subview in self.subviews {
-            if subview.tag == tag {
-                return subview
-            }
-        }
-
-        return nil
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        // Configure Image View
-        var imageView: UIImageView? = self.subview(for: CHECKMARKVIEW) as! UIImageView?
-        if (imageView == nil) {
-            imageView = UIImageView.init(image: UIImage.init(named: "Checkbox-Empty.png"))
-            imageView?.tag = Int(CHECKMARKVIEW)
-        }
-
-        imageView?.bounds = CGRect.init(x: 0, y: 0, width: 40, height: self.bounds.size.height)
-        self.addSubview(imageView!)
+        
+        // Configure image
+        var r = self.imageView?.bounds
+        r?.origin.x = 0
+        imageView?.frame = r!
 
         // Configure Title
-        var r = self.textLabel?.bounds;
+        r = self.textLabel?.bounds;
         r?.origin.x = 40
         self.textLabel?.frame = r!
 
         // Switch Image
         if task!.completed {
             imageView?.image = UIImage.init(named: "Checkbox-Checked.png")
-        }
-        else {
+        }else{
             imageView?.image = UIImage.init(named: "Checkbox-Empty.png")
         }
     }

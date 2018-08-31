@@ -30,7 +30,11 @@ class TasksTableViewController : UITableViewController {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        guard let ts = aDecoder.decodeObject(forKey: "tasks") as? [TSTask] else{
+            return nil
+        }
+        tasks = ts
+        super.init(coder: aDecoder)
     }
 
 

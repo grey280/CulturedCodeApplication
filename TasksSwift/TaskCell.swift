@@ -10,9 +10,7 @@
 import Foundation
 import UIKit
 
-class TaskCell : UITableViewCell {
-    private let CHECKMARKVIEW: UInt = 100
-
+class TaskCell: UITableViewCell {
     var task: TSTask? {
         didSet {
             self.textLabel?.text = task?.title
@@ -30,12 +28,13 @@ class TaskCell : UITableViewCell {
     }
 
     func configureStyle() {
-        self.textLabel?.font = UIFont.init(name: "AmericanTypewriter", size: 16)
+        self.textLabel?.font = UIFont(name: "AmericanTypewriter", size: 16)
         self.textLabel?.textColor = UIColor.black
     }
 
     func setInactive() {
         self.textLabel?.textColor = UIColor.lightGray
+        imageView?.image = UIImage(named: "Checkbox-Checked.png")
     }
 
     override func layoutSubviews() {
@@ -53,9 +52,9 @@ class TaskCell : UITableViewCell {
 
         // Switch Image
         if task!.completed {
-            imageView?.image = UIImage.init(named: "Checkbox-Checked.png")
+            imageView?.image = UIImage(named: "Checkbox-Checked.png")
         }else{
-            imageView?.image = UIImage.init(named: "Checkbox-Empty.png")
+            imageView?.image = UIImage(named: "Checkbox-Empty.png")
         }
     }
 }

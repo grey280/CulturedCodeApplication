@@ -83,9 +83,9 @@ class TasksTableViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! TaskCell?
-        let tvc = TasksTableViewController.init(withTasks: cell!.task!.children)
-        tvc.title = cell!.task!.title
+        let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+        let tvc = TasksTableViewController.init(withTasks: cell.task!.children)
+        tvc.title = cell.task!.title
         self.navigationController?.pushViewController(tvc, animated: true)
     }
 

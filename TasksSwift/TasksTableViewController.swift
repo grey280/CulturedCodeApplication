@@ -61,7 +61,7 @@ class TasksTableViewController : UITableViewController {
         }
 
         if task.completed {
-            cell.setInactive()
+            cell.setComplete(true)
         }
 
         return cell
@@ -71,13 +71,7 @@ class TasksTableViewController : UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! TaskCell
-
-        if (cell.task?.completed)! {
-            cell.setActive()
-        }
-        else {
-            cell.setInactive()
-        }
+        cell.setComplete(!cell.task.completed)
 
         tableView.deselectRow(at: indexPath, animated: false)
     }
@@ -92,7 +86,7 @@ class TasksTableViewController : UITableViewController {
     @objc func completeAll() {
         for cell in self.tableView.visibleCells {
             if let taskCell = cell as? TaskCell {
-                taskCell.setInactive()
+                taskCell.setComplete(true)
             }
         }
     }

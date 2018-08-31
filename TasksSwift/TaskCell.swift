@@ -11,9 +11,9 @@ import Foundation
 import UIKit
 
 class TaskCell: UITableViewCell {
-    var task: TSTask? {
+    var task: TSTask! {
         didSet {
-            self.textLabel?.text = task?.title
+            self.textLabel?.text = task.title
         }
     }
 
@@ -24,7 +24,7 @@ class TaskCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        imageView?.image = UIImage(named: "Checkbox-Empty.png")
+        imageView?.image = TSUtilities.incompleteImage
     }
 
     func configureStyle() {
@@ -32,16 +32,15 @@ class TaskCell: UITableViewCell {
         self.textLabel?.textColor = UIColor.black
     }
     
-    func setActive(){
-        textLabel?.textColor = .black
-        task?.completed = false
-        imageView?.image = UIImage(named: "Checkbox-Empty.png")
-    }
-
-    func setInactive() {
-        self.textLabel?.textColor = .lightGray
-        task?.completed = true
-        imageView?.image = UIImage(named: "Checkbox-Checked.png")
+    func setComplete(_ complete: Bool){
+        task.completed = complete
+        if complete{
+            self.textLabel?.textColor = .lightGray
+            imageView?.image = TSUtilities.completeImage
+        }else{
+            textLabel?.textColor = .black
+            imageView?.image = TSUtilities.incompleteImage
+        }
     }
 
     override func layoutSubviews() {
@@ -59,9 +58,9 @@ class TaskCell: UITableViewCell {
 
         // Switch Image
         if task!.completed {
-            imageView?.image = UIImage(named: "Checkbox-Checked.png")
+            imageView?.image = TSUtilities.completeImage
         }else{
-            imageView?.image = UIImage(named: "Checkbox-Empty.png")
+            imageView?.image = TSUtilities.incompleteImage
         }
     }
 }

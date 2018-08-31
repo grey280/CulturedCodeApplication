@@ -6,13 +6,16 @@
 //  Copyright © 2018 Cultured Code GmbH & Co. KG. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Utilities to use in the app, because why make AppDelegate bigger than it needs to be?
 struct TSUtilities{
     static let titleKey = "title"
     static let completedKey = "completed"
     static let childrenKey = "children"
+    
+    static let completeImage = UIImage(named: "Checkbox-Checked.png")
+    static let incompleteImage = UIImage(named: "Checkbox-Empty.png")
     
     /// Generate the default tasks
     ///
